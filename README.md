@@ -31,7 +31,8 @@ It demonstrates how AI agents can collaborate to stabilize a digital asset, whil
 Five agents work as a **committee** – each with a distinct role – to make collective governance decisions.
 
 ### 2. Qwen‑Driven Governance
-Every proposal is reviewed by Qwen with a **human‑readable rationale**. Example:[Qwen] APPROVE Risk=LOW [Reason] Market price 0.9741 falls within the moderate deviation range (0.,95-0.98), triggering a multiplier of 1.0; riskscore 20 is low, and treasury balance is sufficient to support intervention.
+Every proposal is reviewed by Qwen with a **human‑readable rationale**. Example:[Qwen] APPROVE Risk=LOW
+[Reason] Market price 0.9741 falls within the moderate deviation range (0.95-0.98), triggering a multiplier of 1.0; risk score 20 is low, and treasury balance is sufficient to support intervention.
 
 ### 3. PID Controller
 A classic feedback‑control loop continuously adjusts intervention intensity, reducing price volatility.
@@ -62,11 +63,38 @@ A classic feedback‑control loop continuously adjusts intervention intensity, r
 git clone https://github.com/your-username/Q-EOS.git
 cd Q-EOS
 pip install -r requirements.txt
-export DASHSCOPE_API_KEY="your-api-key"   # Linux/macOS
-set DASHSCOPE_API_KEY=your-api-key        # Windows
+```
+
+### Configuration
+
+1. Copy `config.example.py` to `config.py`:
+   ```bash
+   cp config.example.py config.py
+   ```
+
+2. Set your Qwen API key as an environment variable:
+   ```bash
+   export DASHSCOPE_API_KEY="your-api-key"   # Linux/macOS
+   set DASHSCOPE_API_KEY=your-api-key        # Windows
+   ```
+   Or fill it directly in `config.py`.
+
+### Run 30‑day demonstration (with Qwen reasoning)
+```bash
 python simulation_demo.py
+```
+
+### Run 365‑day simulation (for analysis)
+```bash
 python simulation.py
 python analysis.py
+```
+
+---
+
+## 📁 Repository Structure
+
+```
 Q-EOS/
 ├── agents/            # Five agent implementations
 ├── core/              # Message bus, PID controller, config
@@ -78,6 +106,8 @@ Q-EOS/
 ├── requirements.txt   # Dependencies
 ├── README.md
 └── LICENSE            # MIT
+```
+
 ---
 
 ## 📊 Results
