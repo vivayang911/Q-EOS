@@ -55,6 +55,20 @@ A classic feedback‑control loop continuously adjusts intervention intensity, r
 
 ---
 
+## 🏗️ System Architecture
+
+![System Architecture](docs/architecture.png)
+
+| Agent | Role |
+|-------|------|
+| **Observer** | Fetches current market price |
+| **Risk** | Calculates risk score based on price deviation |
+| **PID** | Computes optimal intervention strength (buyback/sell) |
+| **Governor** | Qwen‑powered, decides `APPROVE` or `REJECT` with detailed reasoning |
+| **Treasury** | Executes only approved actions, enforces hard constraints (10% per tx, emergency stops) |
+
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites
