@@ -34,6 +34,9 @@ Five agents work as a **committee** – each with a distinct role – to make co
 Every proposal is reviewed by Qwen with a **human‑readable rationale**. Example:[Qwen] APPROVE Risk=LOW
 [Reason] Market price 0.9741 falls within the moderate deviation range (0.95-0.98), triggering a multiplier of 1.0; risk score 20 is low, and treasury balance is sufficient to support intervention.
 
+---
+
+
 ### 3. PID Controller
 A classic feedback‑control loop continuously adjusts intervention intensity, reducing price volatility.
 
@@ -65,19 +68,10 @@ cd Q-EOS
 pip install -r requirements.txt
 ```
 
-### Configuration
-
-1. Copy `config.example.py` to `config.py`:
-   ```bash
-   cp config.example.py config.py
-   ```
-
-2. Set your Qwen API key as an environment variable:
-   ```bash
-   export DASHSCOPE_API_KEY="your-api-key"   # Linux/macOS
-   set DASHSCOPE_API_KEY=your-api-key        # Windows
-   ```
-   Or fill it directly in `config.py`.
+### Prerequisites
+- Open config.py in the root directory.
+- Replace your-api-key-here with your Qwen API key:QWEN_API_KEY = "sk-xxxxxxxxxxxxxxxx"
+- Save the file.
 
 ### Run 30‑day demonstration (with Qwen reasoning)
 ```bash
@@ -89,8 +83,6 @@ python simulation_demo.py
 python simulation.py
 python analysis.py
 ```
-
----
 
 ## 📁 Repository Structure
 
@@ -105,10 +97,9 @@ Q-EOS/
 ├── plot_price.py      # Price and treasury curves
 ├── requirements.txt   # Dependencies
 ├── README.md
-└── LICENSE            # MIT
+├── LICENSE            # MIT
+└── config.py          # Configuration file (replace your-api-key-here)
 ```
-
----
 
 ## 📊 Results
 
