@@ -1,0 +1,31 @@
+# 本地配置文件（包含 API Key）
+config.py
+config.py.local
+.env
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# 虚拟环境
+env/
+venv/
+.venv/
+
+# 输出数据（运行时生成）
+output/*.csv
+output/*.png
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# 临时文件
+*.tmp
+.DS_Store
