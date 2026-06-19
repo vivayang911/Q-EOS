@@ -258,6 +258,19 @@ To validate the multi-agent advantage, we conducted a controlled experiment comp
 
 ---
 
+## 🤝 Agent Disagreement Resolution
+
+
+Q-EOS agents do not blindly follow each other. When conflicts arise, the system resolves them through structured governance — a key requirement for multi-agent systems in production environments.
+
+### Real-World Example: Governor Veto Triggered by Treasury Safety
+
+Here is an actual divergence log captured during testing:
+
+![Divergence Log](docs/divergence_log.png)
+
+**Why this matters**: This transparent reasoning chain allows auditors and users to verify that the Governor's veto was based on deterministic treasury protection rules, not arbitrary AI behavior. Every rejection is traceable, explainable, and consistent with the system's hard constraints.
+
 ## 🛠️ Technology Stack
 
 | Component | Tool |
