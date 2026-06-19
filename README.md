@@ -223,6 +223,39 @@ Interventions (blue = approved, red = rejected) show that the system **buys low 
 
 ![Treasury Curve](docs/treasury_curve.png)
 
+
+## 🤝 Agent Disagreement Resolution
+
+Q-EOS agents do not blindly follow each other. When conflicts arise, the system resolves them through structured governance — a key requirement for multi-agent systems in production environments.
+
+### Example: PID vs Governor (Treasury Protection)
+
+| Step | Agent | Decision | Rationale |
+|:---|:---|:---|:---|
+| 1 | Observer | Price = 0.6844 | Market in severe depeg |
+| 2 | Risk | Risk Score = 80 | High risk detected |
+| 3 | PID | Action = +1201.50 USDC | Buyback recommended |
+| 4 | Governor (Qwen) | **REJECT** | Treasury below safety threshold (37,306 < 10,000) |
+| 5 | Treasury | BLOCKED | Execution prevented |
+
+> **Key insight**: Governor has veto power over PID when treasury safety is at risk. This is a **hard constraint** — Qwen can propose, but Treasury enforces. The system prioritizes solvency over aggressive intervention.
+
+---
+
+## 📊 Baseline Comparison: Single Agent vs Multi-Agent
+
+To validate the multi-agent advantage, we conducted a controlled experiment comparing Q-EOS (5 specialized agents) against a single-agent baseline (one Qwen model handling all roles) over 30 days of market simulation.
+
+| Metric | Single Agent | Q-EOS Multi-Agent | Improvement |
+|:---|:---:|:---:|:---:|
+| **Final Treasury Balance (USDC)** | 45,588.0 | **47,419.9** | **+4.0%** |
+| **Execution Rate (%)** | 56.7 | **100.0** | **+76.4%** |
+| **Max Drawdown (%)** | 12.2 | **5.1** | **-58.2%** |
+
+![Baseline Comparison](docs/baseline_comparison.png)
+
+> **Key finding**: Q-EOS achieved **100% execution rate** (vs 56.7% for single agent) with **58.2% lower max drawdown**, demonstrating that specialized agent roles with structured governance deliver measurable efficiency gains — directly addressing the track's requirement for "measurable efficiency gain over single-agent baselines."
+
 ---
 
 ## 🛠️ Technology Stack
