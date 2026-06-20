@@ -53,11 +53,29 @@ Q-EOS is not merely an LLM-wrapper. It is a **theory‑guided engineering implem
 ### 1. Multi‑Agent Society
 Five agents work as a **committee** – each with a distinct role – to make collective governance decisions.
 
-### 2. Qwen‑Driven Governance
-Every proposal is reviewed by Qwen with a **human‑readable rationale**. Example:[Qwen] APPROVE Risk=LOW
-[Reason] Market price 0.9741 falls within the moderate deviation range (0.95-0.98), triggering a multiplier of 1.0; risk score 20 is low, and treasury balance is sufficient to support intervention.
+| Agent | Role |
+|-------|------|
+| **Observer** | Fetches current market price |
+| **Risk** | Calculates risk score based on price deviation |
+| **PID** | Computes optimal intervention strength (buyback/sell) |
+| **Governor** | Qwen‑powered, decides `APPROVE` or `REJECT` with detailed reasoning |
+| **Treasury** | Executes only approved actions, enforces hard constraints (10% per tx, emergency stops) |
 
----
+### 2. Qwen‑Driven Governance
+
+Q-EOS uses a **layered governance architecture**: hard constraints provide deterministic safety guarantees; Qwen handles the nuanced multi‑factor judgment within safe bounds.
+
+Every proposal is reviewed by Qwen with a **human‑readable rationale**. Example from real simulation:
+
+**Key insight**: Hard constraints filter out unsafe proposals; Qwen evaluates the **multi‑factor gray‑area judgment** — price deviation, risk score, treasury health — and outputs a transparent, auditable decision with reasoning.
+
+### 3. PID Controller
+A classic feedback‑control loop continuously adjusts intervention intensity, reducing price volatility.
+
+### 4. Three‑Layer Safety
+- **PID layer**: calculates ideal action  
+- **Qwen layer**: makes the final `APPROVE/REJECT` decision with reasoning  
+- **Treasury layer**: imposes hard limits (≤10% of balance per tx, extreme‑price pause)
 
 
 ### 3. PID Controller
