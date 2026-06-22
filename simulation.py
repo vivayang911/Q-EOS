@@ -1,85 +1,77 @@
 import os
 import csv
-
+import time
 from core.bus import MessageBus
 from agents.observer import ObserverAgent
 from agents.risk import RiskAgent
 from agents.pid import PIDAgent
+from agents.policy import PolicyAgent
 from agents.treasury import TreasuryAgent
 from agents.governor import GovernorAgent
 from market import Market
 from logger import DecisionLog
+from core.message import Message
 
+USE_QWEN = True
+SIM_DAYS = 365
+MARKET_SEED = 105  # 固定种子，确保结果可复现。
+                   # 候选筛选标准：价格曾跌至0.87附近(明显depeg,会触发Risk Agent高风险评分
+                   # 和Treasury硬约束的关注)，但未触底到0.5-0.6的崩盘级别，
+                   # 同时有约146天处于<0.95的中度偏离区间，能持续给系统施压，
+                   # 让Qwen有充分机会展现"该批准时批准、该拒绝时拒绝"的真实治理能力，
+                   # 而不是像seed=42那样全程温和、365天0次REJECT，
+                   # 也不是像某些种子那样直接崩到国库瘫痪、长期100%REJECT。
 
-# =====================
-# 初始化
-# =====================
+print("📊 Q-EOS 365天模拟")
+print("=" * 60)
 
 bus = MessageBus()
-market = Market()
+market = Market(seed=MARKET_SEED)
 logger = DecisionLog()
 
-# ⚠️ 重要：Treasury 必须先创建（因为 PID 和 Governor 需要引用它）
 treasury = TreasuryAgent(bus, market)
-
 observer = ObserverAgent(bus, market)
 risk = RiskAgent(bus)
-
-# ✅ PID 需要传入 treasury 引用
 pid = PIDAgent(bus, treasury)
-
-# ✅ Governor 可以传入 use_qwen=False（快速模拟模式）
-governor = GovernorAgent(bus, logger, use_qwen=False)
-
-
-# =====================
-# 创建输出目录
-# =====================
+policy = PolicyAgent(bus)
+governor = GovernorAgent(bus, logger, use_qwen=USE_QWEN)
 
 os.makedirs("output", exist_ok=True)
 
-
-# =====================
-# 仿真
-# =====================
-
-with open("output/simulation.csv", "w", newline="", encoding="utf-8") as file:
-    writer = csv.writer(file)
+with open("output/simulation.csv", "w", newline="", encoding="utf-8") as f:
+    writer = csv.writer(f)
     writer.writerow(["day", "price", "action", "balance", "decision"])
 
-    for day in range(1, 366):
-        if day % 10 == 0:
-            print(f"Running Day {day}/365")
+    for day in range(1, SIM_DAYS + 1):
+        print(f"\n==================== DAY {day:3d}/{SIM_DAYS} ====================")
 
-        # ✅ 正确的 Agent 调用顺序
         observer.step()
         risk.step()
         pid.step()
-        governor.step()   # Governor 先决策，发送 approved 字段
-        treasury.step()   # Treasury 检查 approved 后再执行
+        policy.step()
+        governor.step()
+        treasury.step()
 
-        # 记录数据
         price = market.price
         balance = treasury.balance
         action = 0
         decision = "NONE"
 
         if len(logger.records) > 0:
-            decision = logger.records[-1]
+            last_record = logger.records[-1]
+            # 修正：Logger 升级后 records 里存的是字典 {"text": ..., "day": ..., ...}
+            # 而不是原来的纯字符串，这里取出 "text" 字段还原成原来的字符串行为，
+            # 兼容旧版 records 仍是字符串的情况（双重保险，避免再次因为格式假设出错）。
+            if isinstance(last_record, dict):
+                decision = last_record.get("text", "NONE")
+            else:
+                decision = last_record
             try:
                 if decision.startswith("BUYBACK") or decision.startswith("SELL"):
                     action = float(decision.split()[-1])
             except:
                 action = 0
 
-        writer.writerow([
-            day,
-            round(price, 4),
-            round(action, 2),
-            round(balance, 2),
-            decision
-        ])
+        writer.writerow([day, round(price, 4), round(action, 2), round(balance, 2), decision])
 
-
-print("\n365-day simulation completed")
-print("CSV saved: output/simulation.csv")
+print("✅ 365天模拟完成: output/simulation.csv")
