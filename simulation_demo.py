@@ -6,6 +6,7 @@ from core.bus import MessageBus
 from agents.observer import ObserverAgent
 from agents.risk import RiskAgent
 from agents.pid import PIDAgent
+from agents.policy import PolicyAgent
 from agents.treasury import TreasuryAgent
 from agents.governor import GovernorAgent
 from market import Market
@@ -41,6 +42,7 @@ treasury = TreasuryAgent(bus, market)
 observer = ObserverAgent(bus, market)
 risk = RiskAgent(bus)
 pid = PIDAgent(bus, treasury)
+policy = PolicyAgent(bus)
 governor = GovernorAgent(bus, logger, use_qwen=USE_QWEN)
 
 
@@ -65,8 +67,9 @@ with open("output/simulation_demo.csv", "w", newline="", encoding="utf-8") as fi
         observer.step()
         risk.step()
         pid.step()
-        governor.step()   # Qwen 决策
-        treasury.step()   # 执行
+        policy.step()      # Policy层：动态调整干预强度
+        governor.step()    # Qwen 决策
+        treasury.step()    # 执行
 
         # 记录数据
         price = market.price
@@ -75,7 +78,11 @@ with open("output/simulation_demo.csv", "w", newline="", encoding="utf-8") as fi
         decision = "NONE"
 
         if len(logger.records) > 0:
-            decision = logger.records[-1]
+            last_record = logger.records[-1]
+            if isinstance(last_record, dict):
+                decision = last_record.get("text", "NONE")
+            else:
+                decision = last_record
             try:
                 if decision.startswith("BUYBACK") or decision.startswith("SELL"):
                     action = float(decision.split()[-1])
