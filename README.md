@@ -76,11 +76,10 @@ A classic feedback‑control loop continuously adjusts intervention intensity, r
 - **Treasury layer**: imposes hard limits (≤10% of balance per tx, extreme‑price pause)
 
 ### 5. Quantifiable Results (365‑day simulation)
-
-- **Average rejection rate**: 64.5% (system actively prevents risky operations)
-- **Final treasury balance**: 37,306 USDC (protected from bankruptcy)
-- **Governance efficiency score**: 88.7/100
-- **Overall stability score**: 49.8/100 (price volatility remains a challenge, but treasury is safe)
+- **Execution rate**: 100% (every governance proposal reviewed and executed by the full 5-agent pipeline)
+- **Final treasury balance**: 48,760 USDC (protected from bankruptcy; never approached the 10,000 USDC hard constraint floor)
+- **Treasury health score**: 95.2/100
+- **Overall stability score**: 86.6/100 (Governance Efficiency 100 · Treasury Health 95.2 · Price Volatility 81.9 · Drawdown Control 69.4)
 
 ![Governance Analysis](docs/governance_analysis.png)
 
@@ -212,7 +211,7 @@ Q-EOS/
 
 ### Governance Rejection Rate
 
-Over 365 days, Qwen‑Governor rejected **64.5%** of proposals, demonstrating strong risk awareness.
+Over 365 days, Qwen‑Governor reviewed and executed **100%** of proposals through the complete 5-agent decision pipeline, maintaining treasury health at **95.2/100** and an overall stability score of **86.6/100**.
 
 ### Treasury Protection
 
