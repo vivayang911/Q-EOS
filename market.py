@@ -13,7 +13,13 @@ from core.config import (
 
 class Market:
 
-    def __init__(self):
+    def __init__(self, seed=None):
+        # 公平对比实验需要固定种子，保证两组实验面对完全相同的市场冲击路径。
+        # seed=None 时行为与原版完全一致（不影响 simulation.py / simulation_demo.py 等已有脚本）。
+        if seed is not None:
+            self._rng = random.Random(seed)
+        else:
+            self._rng = random
 
         self.price = 1.0
 
@@ -50,7 +56,7 @@ class Market:
     def update(self):
 
         # 正常市场波动
-        random_move = random.uniform(
+        random_move = self._rng.uniform(
             MARKET_RANDOM_MIN,
             MARKET_RANDOM_MAX
         )
@@ -63,9 +69,9 @@ class Market:
         )
 
         # 黑天鹅事件
-        if random.random() < BLACK_SWAN_PROBABILITY:
+        if self._rng.random() < BLACK_SWAN_PROBABILITY:
 
-            shock = random.uniform(
+            shock = self._rng.uniform(
                 BLACK_SWAN_MIN,
                 BLACK_SWAN_MAX
             )
