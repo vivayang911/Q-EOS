@@ -41,16 +41,17 @@ class PIDAgent:
             # 🔥 关键升级：真实 treasury balance
             balance = self.treasury.balance
 
+            # PID → Policy（Policy层动态调整干预强度后再传给Governor）
             self.bus.send(
                 Message(
                     "PID",
-                    "Governor",
+                    "Policy",
                     "PROPOSAL",
                     {
                         "price": price,
                         "action": action,
                         "risk_score": risk_score,
-                        "balance": balance   # ⭐关键修复点
+                        "balance": balance
                     }
                 )
             )
