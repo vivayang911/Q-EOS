@@ -3,6 +3,7 @@ from core.bus import MessageBus
 from agents.observer import ObserverAgent
 from agents.risk import RiskAgent
 from agents.pid import PIDAgent
+from agents.policy import PolicyAgent
 from agents.treasury import TreasuryAgent
 from agents.governor import GovernorAgent
 
@@ -42,6 +43,11 @@ pid = PIDAgent(
     treasury
 )
 
+# Policy层：动态调整干预强度（PID → Policy → Governor）
+policy = PolicyAgent(
+    bus
+)
+
 governor = GovernorAgent(
     bus,
     logger
@@ -63,6 +69,8 @@ for day in range(1, 366):
     risk.step()
 
     pid.step()
+
+    policy.step()
 
     governor.step()
 
