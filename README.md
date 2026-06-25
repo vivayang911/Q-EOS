@@ -4,7 +4,7 @@
 
 Q-EOS is a **fully autonomous multi‑agent system** that governs a token economy using:
 
-- **5 specialized agents** (Observer, Risk, PID, Treasury, Governor)
+- **6 specialized agents** (Observer, Risk, PID, Policy,Treasury, Governor)
 - **Qwen-Plus** for transparent governance reasoning
 - **PID controller** for stable intervention
 - **Hard constraint layer** for treasury protection
@@ -24,7 +24,7 @@ Q-EOS is not merely an LLM-wrapper. It is a **theory‑guided engineering implem
 | Identifies **static/rule‑based buybacks** as a root cause of pro‑cyclical volatility | `PIDAgent` replaces static rules with **continuous feedback control** |
 | Proposes a **PID controller** as the core stabilizer | `PIDController` implements `Kp`, `Ki`, `Kd` logic exactly |
 | Emphasizes **strict solvency constraints** to prevent treasury depletion | `TreasuryAgent._enforce_hard_constraints()` enforces 10% per‑tx cap, price circuit‑breaker, and emergency halt |
-| Uses **agent‑based simulation** for validation | Q-EOS runs **5‑agent collaborative simulation** (Observer, Risk, PID, Governor, Treasury) |
+| Uses **agent‑based simulation** for validation | Q-EOS runs **6‑agent collaborative simulation** (Observer, Risk, PID,Policy, Governor, Treasury) |
 | Targets **decentralized AI network** economic stability | Q-EOS governs a **Qwen‑powered Agent Society** token economy |
 
 ### Why This Matters
@@ -46,6 +46,7 @@ Q-EOS is not merely an LLM-wrapper. It is a **theory‑guided engineering implem
 | **Observer** | Fetches current market price |
 | **Risk** | Calculates risk score based on price deviation |
 | **PID** | Computes optimal intervention strength (buyback/sell) |
+| **Policy** | Dynamically adjusts intervention strength (multiplier 0.5–1.5) based on risk and treasury health |
 | **Governor** | Qwen‑powered, decides `APPROVE` or `REJECT` with detailed reasoning |
 | **Treasury** | Executes only approved actions, enforces hard constraints (10% per tx, emergency stops) |
 
@@ -55,13 +56,14 @@ Q-EOS is not merely an LLM-wrapper. It is a **theory‑guided engineering implem
 
 ### 1. Multi‑Agent Society
 
-Five agents work as a **committee** – each with a distinct role – to make collective governance decisions.
+Six agents work as a **committee** – each with a distinct role – to make collective governance decisions.
 
 ### 2. Qwen‑Driven Governance
 
 Q-EOS uses a **layered governance architecture**: hard constraints provide deterministic safety guarantees; Qwen handles the nuanced multi‑factor judgment within safe bounds.
 
 Every proposal is reviewed by Qwen with a **human‑readable rationale**. Example from real simulation:
+![Qwen Real Decision](docs/qwen_real_decision.png)
 
 **Key insight**: Hard constraints filter out unsafe proposals; Qwen evaluates the **multi‑factor gray‑area judgment** — price deviation, risk score, treasury health — and outputs a transparent, auditable decision with reasoning.
 
@@ -76,7 +78,7 @@ A classic feedback‑control loop continuously adjusts intervention intensity, r
 - **Treasury layer**: imposes hard limits (≤10% of balance per tx, extreme‑price pause)
 
 ### 5. Quantifiable Results (365‑day simulation)
-- **Execution rate**: 100% (every governance proposal reviewed and executed by the full 5-agent pipeline)
+- **Execution rate**: 100% (every governance proposal reviewed and executed by the full 6-agent pipeline)
 - **Final treasury balance**: 48,760 USDC (protected from bankruptcy; never approached the 10,000 USDC hard constraint floor)
 - **Treasury health score**: 95.2/100
 - **Overall stability score**: 86.6/100 (Governance Efficiency 100 · Treasury Health 95.2 · Price Volatility 81.9 · Drawdown Control 69.4)
@@ -146,9 +148,9 @@ Q-EOS 实施 **多层安全防御**，确保 AI 治理保持安全、可审计�
 >
 > **Qwen 拥有建议权，Treasury 拥有否决权。** AI 可以提出建议，但确定性规则保障安全。这正是 Q-EOS 在"智能"与"问责"之间取得平衡的方式——系统的设计目标是 **可控的**，而非无懈可击。
 
-In financial governance, **"doing nothing" is far better than "doing the wrong thing."** In the 365-day full simulation stress test, Q-EOS's governance layer executed 100% of proposals through the complete 5-agent decision pipeline, maintaining treasury health above 95% throughout — demonstrating that the system is both decisive and safe.
+In financial governance, **"doing nothing" is far better than "doing the wrong thing."** In the 365-day full simulation stress test, Q-EOS's governance layer executed 100% of proposals through the complete 6-agent decision pipeline, maintaining treasury health above 95% throughout — demonstrating that the system is both decisive and safe.
 
-在金融治理中，**"不作为"远优于"错误作为"。** 在365天完整仿真压力测试中，Q-EOS 治理层通过完整的五智能体决策流水线执行了 100% 的提案，全程国库健康度保持在 95% 以上，证明系统在果断执行的同时保持了安全性。
+在金融治理中，**"不作为"远优于"错误作为"。** 在365天完整仿真压力测试中，Q-EOS 治理层通过完整的六智能体决策流水线执行了 100% 的提案，全程国库健康度保持在 95% 以上，证明系统在果断执行的同时保持了安全性。
 
 ---
 
@@ -190,7 +192,7 @@ python analysis.py
 
 ```
 Q-EOS/
-├── agents/            # Five agent implementations
+├── agents/            # Six agent implementations
 ├── core/               # Message bus, PID controller, config
 ├── market.py            # Market simulator with shocks and feedback
 ├── simulation.py         # 365‑day fast simulation (for submission)
@@ -207,7 +209,7 @@ Q-EOS/
 
 ### Governance Rejection Rate
 
-Over 365 days, Qwen‑Governor reviewed and executed **100%** of proposals through the complete 5-agent decision pipeline, maintaining treasury health at **95.2/100** and an overall stability score of **86.6/100**.
+Over 365 days, Qwen‑Governor reviewed and executed **100%** of proposals through the complete 6-agent decision pipeline, maintaining treasury health at **95.2/100** and an overall stability score of **86.6/100**.
 
 ### Treasury Protection
 
@@ -232,8 +234,9 @@ Q-EOS agents do not blindly follow each other. When conflicts arise, the system 
 | 1 | Observer | Price = 0.6844 | Market in severe depeg |
 | 2 | Risk | Risk Score = 80 | High risk detected |
 | 3 | PID | Action = +1201.50 USDC | Buyback recommended |
-| 4 | Governor (Qwen) | **REJECT** | Treasury below safety threshold (37,306 < 10,000) |
-| 5 | Treasury | BLOCKED | Execution prevented |
+| 4 | Policy | Multiplier = 0.50, Final Action = +600.75 USDC | High risk triggers conservative multiplier |
+| 5 | Governor (Qwen) | **REJECT** | Treasury balance (37,306) approaching risk zone; action (1,201.50) exceeds 10% of treasury (3,730.6 cap) |
+| 6 | Treasury | BLOCKED | Execution prevented |
 
 > **Key insight**: Governor has veto power over PID when treasury safety is at risk. This is a **hard constraint** — Qwen can propose, but Treasury enforces. The system prioritizes solvency over aggressive intervention.
 
@@ -253,7 +256,7 @@ To validate the multi-agent advantage, we conducted a controlled experiment comp
 
 - **Single Agent**: one Qwen model handling all roles, using a simplified linear control formula
 - **Single + PID**: one Qwen model handling all roles, but using the *same* PID controller (`Kp=3000, Ki=50, Kd=500`) as Q-EOS — this isolates whether the advantage comes from multi-agent collaboration or merely from a better control algorithm
-- **Q-EOS Multi-Agent**: the full 5-agent system
+- **Q-EOS Multi-Agent**: the full 6-agent system
 
 | Metric | Single Agent | Single + PID | Q-EOS Multi-Agent |
 |:---|:---:|:---:|:---:|
