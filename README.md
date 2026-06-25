@@ -302,4 +302,4 @@ MIT – see [LICENSE](LICENSE) for details.
 ## 🙌 Acknowledgements
 
 - Built for the **Qwen Cloud Hackathon 2026** – Agent Society Track
-- Inspired by DCBM (Dynamic Control Buyback Mechanism, arXiv:2601.08399)
+- Inspired by DCBM (Dynamic Control Buyback Mechanism, arXiv:2601.09961)
