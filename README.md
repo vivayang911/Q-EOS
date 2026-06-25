@@ -63,7 +63,7 @@ Six agents work as a **committee** – each with a distinct role – to make col
 Q-EOS uses a **layered governance architecture**: hard constraints provide deterministic safety guarantees; Qwen handles the nuanced multi‑factor judgment within safe bounds.
 
 Every proposal is reviewed by Qwen with a **human‑readable rationale**. Example from real simulation:
-![Qwen Real Decision](docs/qwen_real_decision.png)
+![Qwen Real Decision](docs/Qwen_real_decision.png)
 
 **Key insight**: Hard constraints filter out unsafe proposals; Qwen evaluates the **multi‑factor gray‑area judgment** — price deviation, risk score, treasury health — and outputs a transparent, auditable decision with reasoning.
 
