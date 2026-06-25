@@ -15,11 +15,11 @@ It demonstrates how AI agents can collaborate to stabilize a digital asset, whil
 
 ## 📐 Theoretical Foundation: From DCBM Paper to Q-EOS
 
-Q-EOS is not merely an LLM-wrapper. It is a **theory‑guided engineering implementation** of the **Dynamic‑Control Buyback Mechanism (DCBM)**, a formal framework published in *arXiv:2601.08399*.
+Q-EOS is not merely an LLM-wrapper. It is a **theory‑guided engineering implementation** of the **Dynamic‑Control Buyback Mechanism (DCBM)**, a formal framework published in *arXiv:2601.09961*.
 
 ### Core Alignment
 
-| DCBM Paper (arXiv:2601.08399) | Q-EOS Implementation |
+| DCBM Paper (arXiv:2601.09961) | Q-EOS Implementation |
 |:---|:---|
 | Identifies **static/rule‑based buybacks** as a root cause of pro‑cyclical volatility | `PIDAgent` replaces static rules with **continuous feedback control** |
 | Proposes a **PID controller** as the core stabilizer | `PIDController` implements `Kp`, `Ki`, `Kd` logic exactly |
@@ -33,7 +33,7 @@ Q-EOS is not merely an LLM-wrapper. It is a **theory‑guided engineering implem
 
 ### Citation
 
-> DCBM: Dynamic‑Control Buyback Mechanism for Tokenomics. *arXiv:2601.08399*. [Link](https://arxiv.org/abs/2601.08399)
+> DCBM: Dynamic‑Control Buyback Mechanism for Tokenomics. *arXiv:2601.09961*. [Link](https://arxiv.org/abs/2601.09961)
 
 ---
 
