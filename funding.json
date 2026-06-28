@@ -1,0 +1,61 @@
+{
+  "version": "v1.0.0",
+  "entity": {
+    "type": "individual",
+    "role": "maintainer",
+    "name": "Andy Yang",
+    "email": "yangdamin851228@gmail.com",
+    "description": "Independent developer based in China, building open-source multi-agent AI systems for decentralized economic governance.",
+    "webpageUrl": {
+      "url": "https://github.com/vivayang911"
+    }
+  },
+  "projects": [
+    {
+      "guid": "q-eos",
+      "name": "Q-EOS: Qwen Economic Agent Society",
+      "description": "A fully autonomous six-agent economic governance system powered by Qwen-Plus, PID control theory, and a three-layer safety framework. Q-EOS implements the Dynamic Control Buyback Mechanism (DCBM, arXiv:2601.09961) as a multi-agent architecture where Observer, Risk, PID, Policy, Governor, and Treasury agents collaborate to stabilize a token economy in real time. The system demonstrates measurable efficiency gains over single-agent baselines: +3,351 USDC treasury surplus and 7x reduction in max drawdown over 30-day controlled experiments.",
+      "webpageUrl": {
+        "url": "https://github.com/vivayang911/Q-EOS"
+      },
+      "repositoryUrl": {
+        "url": "https://github.com/vivayang911/Q-EOS",
+        "wellKnown": "https://github.com/vivayang911/Q-EOS/blob/main/funding.json"
+      },
+      "licenses": ["MIT"],
+      "tags": [
+        "multi-agent",
+        "ai-governance",
+        "token-economy",
+        "defi",
+        "pid-control",
+        "llm",
+        "open-source",
+        "python"
+      ]
+    }
+  ],
+  "funding": {
+    "channels": [
+      {
+        "guid": "github-sponsors",
+        "type": "github",
+        "address": "vivayang911",
+        "description": "GitHub Sponsors"
+      }
+    ],
+    "plans": [
+      {
+        "guid": "research-plan",
+        "status": "active",
+        "name": "Multi-Seed Research & On-Chain Integration",
+        "description": "Fund multi-seed statistical experiments (10+ seeds) for academic publication, and begin on-chain execution integration with real DeFi protocols.",
+        "amount": 25000,
+        "currency": "USD",
+        "frequency": "one-time",
+        "channels": ["github-sponsors"]
+      }
+    ],
+    "history": []
+  }
+}
