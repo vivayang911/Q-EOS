@@ -39,8 +39,8 @@
     "channels": [
       {
         "guid": "github-sponsors",
-        "type": "github",
-        "address": "vivayang911",
+        "type": "payment-provider",
+        "address": "https://github.com/sponsors/vivayang911",
         "description": "GitHub Sponsors"
       }
     ],
